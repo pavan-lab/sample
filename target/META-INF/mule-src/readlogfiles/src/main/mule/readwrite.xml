@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:as400="http://www.mulesoft.org/schema/mule/as400"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/as400 http://www.mulesoft.org/schema/mule/as400/current/mule-as400.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="d0923cfd-adf5-41e8-81ac-0f342c61a8c3" >
+		<file:connection workingDir="C:\AnypointStudio\plugins\org.mule.tooling.server.4.2.2.ee_7.3.5.201911122027\mule\logs" />
+	</file:config>
+	<flow name="readwriteFlow" doc:id="8068eb89-d014-4ada-a56f-69df022c04e8" >
+		<logger level="INFO" doc:name="Logger" doc:id="f85ae448-e93d-4a88-a33c-8b60ad79501e" message="request recevied"/>
+		<file:list doc:name="List" doc:id="42723ee7-e9f1-41c2-8cfa-7218e844a453" config-ref="File_Config" directoryPath="C:\AnypointStudio\plugins\org.mule.tooling.server.4.2.2.ee_7.3.5.201911122027\mule\logs">
+			<file:matcher filenamePattern="*.log" />
+		</file:list>
+		<ee:transform doc:name="Transform Message" doc:id="3aba94c0-0c30-4a3e-a0f9-e379fac452bc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload.typedAttributes.path]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<file:read doc:name="Read" doc:id="d755b698-34bb-41ca-bed1-b94633c175dc" config-ref="File_Config" path="#[payload[0]]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="f57a6de1-07ed-4184-9ce9-2e9743a63a2a" message="final response...."/>
+	</flow>
+</mule>

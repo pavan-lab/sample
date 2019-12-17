@@ -1,0 +1,13 @@
+#%RAML 1.0
+title: readlogfiles
+baseUri: http://localhost:8081/api
+/readfile: 
+  get: 
+    queryParameters: 
+      filename:
+    responses:
+      200:
+        body: 
+          application/json: 
+            example: !include examples/readlogs.json
+             
