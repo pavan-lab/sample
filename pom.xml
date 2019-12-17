@@ -46,12 +46,6 @@
 	</build>
 
 	<dependencies>
-	<dependency>
-		<groupId>org.apache.httpcomponents</groupId>
-		<artifactId>httpclient</artifactId>
-		<version>${httpclient.version}</version>
-		<classifier>mule-plugin</classifier>
-    	</dependency>
         <dependency>
             <groupId>org.mule.connectors</groupId>
             <artifactId>mule-http-connector</artifactId>
